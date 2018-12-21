@@ -42,31 +42,33 @@
                         <div class="recommend-item">
                             <img :src="item.image" width="80%"/>
                             <div>{{item.goodsName}}</div>
-                            <div>￥{{item.price}}(￥{{item.mallPrice}})</div>
+                            <div>￥{{item.price | moneyFilter}}(￥{{item.mallPrice | moneyFilter}})</div>
                         </div>
                     </swiper-slide>
                 </swiper>
             </div>
         </div>
         <!--floor area-->
-        <div class="floor">
-            <div class="floor-anomaly">
-                <div class="floor-one">
-                    <img :src="floor1_0.image" width="100%"/>
-                </div>
-                <div>
-                    <div class="floor-two">
-                        <img :src="floor1_1.image" width="100%"/>
-                    </div>
-                    <div>
-                        <img :src="floor1_2.image" width="100%"/>
-                    </div>
-                </div>
-            </div>
-            <div class="floor-rule">
-                <div v-for="(item,index) in floor1.slice(3)" :key="index">
-                    <img :src="item.image" width="100%"/>
-                </div>
+        <floor-component :floorData="floor1" :floorTitle="floorName.floor1"></floor-component>
+        <floor-component :floorData="floor2" :floorTitle="floorName.floor2"></floor-component>
+        <floor-component :floorData="floor3" :floorTitle="floorName.floor3"></floor-component>
+
+        <!--Hot Area-->
+        <div class="hot-area">
+            <div class="hot-title">热卖商品</div>
+            <div class="hot-goods">
+                <!--这里需要一个list组件-->
+                <van-list>
+                    <van-row gutter="20"> <!--gutter 间隔-->
+                        <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+                            <goods-info-component
+                                    :goodsImage="item.image"
+                                    :goodsName="item.name"
+                                    :goodsPrice="item.price">
+                            </goods-info-component>
+                        </van-col>
+                    </van-row>
+                </van-list>
             </div>
         </div>
     </div>
@@ -76,12 +78,18 @@
     import axios from 'axios'
     import 'swiper/dist/css/swiper.css'
     import {swiper, swiperSlide} from 'vue-awesome-swiper'
+    import FloorComponent from '../components/FloorComponent'
+    import {toMoney} from "../filter/moneyFilter";
+    import GoodsInfoComponent from '../components/GoodsInfoComponent'
+    import server from '../common/server'
 
     export default {
         name: 'home',
         components: {
             swiper,
-            swiperSlide
+            swiperSlide,
+            FloorComponent,
+            GoodsInfoComponent
         },
         data() {
             return {
@@ -94,13 +102,14 @@
                     slidesPerView: 3
                 },
                 floor1: [],
-                floor1_0: {},
-                floor1_1: {},
-                floor1_2: {},
+                floor2: [],
+                floor3: [],
+                floorName: {},
+                hotGoods: [], //热卖商品
             }
         },
         created() {
-            axios.get('https://www.easy-mock.com/mock/5c1b050848952b7bd65142a4/SmileVue/home')
+            axios.get(server.url.getHomeInfo)
                 .then((res) => {
                     if (res.status == 200) {
                         this.bannerPicArray = res.data.data.slides;
@@ -108,15 +117,21 @@
                         this.advertesPicture = res.data.data.advertesPicture.PICTURE_ADDRESS;
                         this.recommendGoods = res.data.data.recommend;
                         this.floor1 = res.data.data.floor1;
-                        this.floor1_0 = this.floor1[0];
-                        this.floor1_1 = this.floor1[1];
-                        this.floor1_2 = this.floor1[2];
+                        this.floor2 = res.data.data.floor2;
+                        this.floor3 = res.data.data.floor3;
+                        this.floorName = res.data.data.floorName;
+                        this.hotGoods = res.data.data.hotGoods
                     }
 
                     console.log(res)
                 }).catch((error) => {
                 console.log(error)
             })
+        },
+        filters: {
+            moneyFilter(money) {
+                return toMoney(money)
+            }
         }
 
     }
@@ -182,30 +197,10 @@
                 font-size: 12px
                 text-align: center
 
-    .floor-anomaly
-        display: flex
-        flex-direction: row
-        background-color: #fff
-        border-bottom: 1px solid #ddd
+    .hot-area
+        text-align: center;
+        font-size: 14px;
+        height: 1.8rem;
+        line-height: 1.8rem;
 
-        .floor-one
-            border-right: 1px solid #ddd
-
-        .floor-two
-            border-bottom: 1px solid #ddd
-
-    .floor-rule
-        display: flex
-        flex-direction: row
-        flex-flow: wrap
-        background-color: #fff
-
-        > div
-            -webkit-box-sizing: border-box
-            box-sizing: border-box
-            width: 10rem
-            border-bottom: 1px solid #ddd
-
-        > div:nth-child(odd)
-            border-right: 1px solid #ddd
 </style>
