@@ -111,7 +111,7 @@
         created() {
             axios.get(server.url.getHomeInfo)
                 .then((res) => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         this.bannerPicArray = res.data.data.slides;
                         this.category = res.data.data.category;
                         this.advertesPicture = res.data.data.advertesPicture.PICTURE_ADDRESS;
@@ -121,6 +121,8 @@
                         this.floor3 = res.data.data.floor3;
                         this.floorName = res.data.data.floorName;
                         this.hotGoods = res.data.data.hotGoods
+                    } else {
+                        Toast.fail(res.statusText)
                     }
 
                     console.log(res)

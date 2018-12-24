@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "koa": "^2.6.2"
+    "koa": "^2.6.2",
+    "mongoose": "^5.4.0",
+    "mongose": "0.0.2-security"
   }
 }
