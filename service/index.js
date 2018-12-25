@@ -20,21 +20,10 @@ app.use(router.routes());
 app.use(router.allowedMethods())
 
 //查询数据库 获取数据
-// ;(async () => {
-//     await connect()
-//     initSchemas()
-//     const User = mongoose.model('User');
-//     let oneUser = new User({
-//         userName: 'jspang06',
-//         password: '123456'
-//     })
-//     oneUser.save().then(() => {
-//         console.log('插入成功')
-//     })
-//     let user = await User.find({}).exec();
-//     console.log('------------------------------------')
-//     console.log(user)
-// })()
+;(async () => {
+    await connect()
+    initSchemas()
+})()
 
 app.use(async (ctx) => {
     ctx.body = '<h1>hello Koa2</h1>'

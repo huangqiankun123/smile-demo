@@ -10,6 +10,8 @@ const userScheme = new Schema({
     password: String,
     createAt: {type: Date, default: Date.now()},
     lastLoginAt: {type: Date, default: Date.now()}
+},{
+    collection:'use'
 });
 // userScheme.pre('save', function (next) {
 //     bcrypt.genSalt(10, function (err, salt) {

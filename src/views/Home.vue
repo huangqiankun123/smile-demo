@@ -82,7 +82,7 @@
     import {toMoney} from "../filter/moneyFilter";
     import GoodsInfoComponent from '../components/GoodsInfoComponent'
     import server from '../common/serviceApi'
-
+    import {Toast} from "vant";
     export default {
         name: 'home',
         components: {

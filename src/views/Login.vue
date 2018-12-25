@@ -1,12 +1,12 @@
 <template>
     <div>
         <van-nav-bar
-                title="用户注册"
+                title="用户登录"
                 left-text="返回"
                 left-arrow
                 @click-left="goBack"
         />
-        <div class="register-panel">
+        <div class="login-panel">
 
             <van-field
                     v-model="username"
@@ -27,12 +27,11 @@
                     @click-icon="password=''"
                     :error-message="passwordErrorMsg"/>
 
-            <div class="register-btn">
+            <div class="login-btn">
                 <van-button type="primary"
                             size="large"
-                            @click="registerAction"
-                            :loading="openLoading">马上注册
-                </van-button>
+                            @click="loginAction"
+                            :loading="openLoading">登录</van-button>
             </div>
 
         </div>
@@ -45,7 +44,7 @@
     import {Toast} from "vant";
 
     export default {
-        name: 'Register',
+        name: 'Login',
         components: {},
         data() {
             return {
@@ -63,13 +62,13 @@
             goBack() {
                 this.$router.go(-1);
             },
-            registerAction() {
+            loginAction() {
                 // if (this.checkForm()) {
                 //     this.registerUser()
                 // }
-                this.checkForm() && this.registerUser()
+                this.checkForm() && this.loginUser()
             },
-            registerUser() {
+            loginUser() {
                 this.openLoading = true
                 axios({
                     url: serviceApi.url.registerUser,
@@ -118,12 +117,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
-    .register-panel
+    .login-panel
         width: 96%
         border-radius 5px
         margin 20px auto
         padding-bottom 50px
 
-        .register-btn
+        .login-btn
             padding-top: 10px
 </style>
