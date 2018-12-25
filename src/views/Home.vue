@@ -81,7 +81,7 @@
     import FloorComponent from '../components/FloorComponent'
     import {toMoney} from "../filter/moneyFilter";
     import GoodsInfoComponent from '../components/GoodsInfoComponent'
-    import server from '../common/server'
+    import server from '../common/serviceApi'
 
     export default {
         name: 'home',
