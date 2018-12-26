@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import Register from './views/Register'
 import Login from './views/Login'
 import Goods from './views/Goods'
+import CategoryList from './views/CategoryList'
+
 
 Vue.use(Router)
 
@@ -30,6 +32,11 @@ export default new Router({
             path: '/goods',
             name: 'Goods',
             component: Goods
+        },
+        {
+            path: '/categorylist',
+            name: 'CategoryList',
+            component: CategoryList
         },
         {
             path: '/about',

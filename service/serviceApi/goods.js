@@ -96,4 +96,50 @@ router.post('/getDetailGoodsInfo', async (ctx) => {
     }
 });
 
+/**
+ * 获取大分类数据
+ * @type {Router|*}
+ */
+router.get('/getCategoryList', async (ctx) => {
+    try {
+        const Category = mongoose.model('Category');
+        let result = await Category.find().exec();
+        ctx.body = {code: 200, message: result}
+    } catch (error) {
+        ctx.body = {code: 500, message: error}
+    }
+});
+
+/**
+ * 获取小分类数据
+ * @type {Router|*}
+ */
+router.get('/getCategorySubList', async (ctx) => {
+    try {
+        // let categoryId =ctx.request.body.categoryId;
+        let categoryId = 1;
+        const CategorySub = mongoose.model('CategorySub')
+        let result = await CategorySub.find({MALL_CATEGORY_ID: categoryId}).exec();
+        ctx.body = {code: 200, message: result}
+    } catch (error) {
+        ctx.body = {code: 500, message: error}
+    }
+});
+
+/**
+ * 根据类别获取商品列表
+ * @type {Router|*}
+ */
+router.get('/getGoodsListByCategorySubID', async (ctx) => {
+    try {
+        // let categorySubId =ctx.request.body.categorySubId;
+        let categorySubId = '2c9f6c946016ea9b016016f79c8e0000';
+        const Goods = mongoose.model('Goods')
+        let result =await Goods.find({SUB_ID:categorySubId}).exec();
+        ctx.body ={code:200,message:result}
+    } catch (e) {
+        ctx.body = {code: 500, message: e}
+    }
+});
+
 module.exports = router

@@ -5,6 +5,7 @@ const URL = {
     registerUser: LOCAL_URL + 'user/register',
     login:LOCAL_URL+'user/login',   //用户注册接口
     getDetailGoodsInfo:LOCAL_URL+'goods/getDetailGoodsInfo',   //获取商品详情
+    getCategoryList:LOCAL_URL+'goods/getCategoryList',   //获取商品详情
 };
 
 export default {
