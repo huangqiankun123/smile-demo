@@ -79,7 +79,6 @@
                         password: this.password
                     }
                 }).then(res => {
-                    console.log(res)
                     if (res.data.code == 200) {
                         Toast.success(res.data.message)
                         this.$router.push('/')

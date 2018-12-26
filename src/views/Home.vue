@@ -64,7 +64,8 @@
                             <goods-info-component
                                     :goodsImage="item.image"
                                     :goodsName="item.name"
-                                    :goodsPrice="item.price">
+                                    :goodsPrice="item.price"
+                                    :goodsId="item.goodsId">
                             </goods-info-component>
                         </van-col>
                     </van-row>

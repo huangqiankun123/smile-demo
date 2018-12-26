@@ -58,6 +58,12 @@
         mounted() {
 
         },
+        created(){
+            if (localStorage.userInfo) {
+                Toast.success('已登录')
+                this.$router.push('/')
+            }
+        },
         methods: {
             goBack() {
                 this.$router.go(-1);
@@ -71,7 +77,7 @@
             loginUser() {
                 this.openLoading = true
                 axios({
-                    url: serviceApi.url.registerUser,
+                    url: serviceApi.url.login,
                     method: 'post',
                     data: {
                         userName: this.username,
@@ -79,17 +85,31 @@
                     }
                 }).then(res => {
                     console.log(res)
-                    if (res.data.code == 200) {
-                        Toast.success(res.data.message)
-                        this.$router.push('/')
+                    if (res.data.code === 200 &&res.data.message) {
+                        //保存账号密码
+                        new Promise(((resolve, reject) => {
+                            localStorage.userInfo ={userName:this.userName}
+                            setTimeout(()=>{
+                                resolve()
+                            })
+                        }),500).then(()=>{
+                            Toast.success('登录成功');
+                            this.openLoading = false;
+                            this.$router.push('/')
+                        }).catch(err=>{
+                            Toast.fail('登录状态保存失败');
+                            console.log(err)
+                        })
+
+
                     } else {
                         console.log(res.data.message);
                         this.openLoading = false;
-                        Toast.fail('注册失败')
+                        Toast.fail('登录失败')
                     }
                 }).catch(err => {
                     this.openLoading = false;
-                    Toast.fail('注册失败');
+                    Toast.fail('登录失败');
                     console.log(err)
                 })
             },
