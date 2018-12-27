@@ -52,7 +52,7 @@
             }
         },
         created() {
-            this.goodsId = this.$route.query.goodsId;
+            this.goodsId = this.$route.query.goodsId ? this.$route.query.goodsId : this.$route.params.goodsId;
             console.log(this.goodsId)
             this.getInfo()
         },
@@ -81,6 +81,7 @@
                     console.log(this.goodsInfo)
                 }).catch((error) => {
                     console.log(error)
+                    Toast('获取数据失败')
                 })
             },
             onBack() {

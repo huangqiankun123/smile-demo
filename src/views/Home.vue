@@ -84,6 +84,7 @@
     import GoodsInfoComponent from '../components/GoodsInfoComponent'
     import server from '../common/serviceApi'
     import {Toast} from "vant";
+
     export default {
         name: 'home',
         components: {
@@ -178,6 +179,7 @@
         padding: .3rem
         font-size: 12px
         text-align: center
+        flex 1
     }
 
     .recommend-area
@@ -205,5 +207,9 @@
         font-size: 14px;
         height: 1.8rem;
         line-height: 1.8rem;
+        .hot-goods
+            height 130rem
+            overflow hidden
+            background-color #fff
 
 </style>
