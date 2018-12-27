@@ -34,7 +34,7 @@
                                       :finished="finished"
                                       finished-text="没有更多了"
                                       @load="onLoad">
-                                <div class="list-item" v-for="(item,index) in goodslist" :key="index"
+                                <div class="list-item" v-for="(item,index) in goodsList" :key="index"
                                      @click="goGoodsInfo(item.ID)">
                                     <div class="list-item-img">
                                         <img :src="item.IMAGE1" width="100%" :onerror="errorImg"/>
@@ -69,7 +69,7 @@
                 loading: false, ////上拉加载使用
                 finished: false, //下拉加载是否没有数据了
                 active: 0,
-                goodslist: [],  //商品列表数据
+                goodsList: [],  //商品列表数据
                 isRefresh: false, //下拉刷新
                 categorySubId: '',  //商品子类别id
                 page: 1,
@@ -109,7 +109,7 @@
                 this.categoryIndex = index;
                 this.page = 1;
                 this.finished = false;
-                this.goodslist = [];
+                this.goodsList = [];
                 this.getCategorySubByCategoryId(categoryId)
             },
             //根据大类id来获取小类数据
@@ -136,9 +136,9 @@
                 })
             },
             //得到小类商品列表信息
-            getGoodsList(categorySubId) {
+            getgoodsList(categorySubId) {
                 axios({
-                    url: serviceApi.url.getGoodsListByCategorySubID,
+                    url: serviceApi.url.getgoodsListByCategorySubID,
                     method: 'post',
                     data: {
                         categorySubId: categorySubId,
@@ -147,7 +147,7 @@
                 }).then((res) => {
                     if (res.data.code === 200 && res.data.message) {
                         this.page++;
-                        this.goodslist = this.goodslist.concat(res.data.message);
+                        this.goodsList = this.goodsList.concat(res.data.message);
                         console.log(res.data.message)
                     } else {
                         this.finished = true
@@ -162,7 +162,7 @@
             onLoad() {
                 setTimeout(() => {
                     this.categorySubId = this.categorySubId ? this.categorySubId : this.categorySub[0].ID;
-                    this.getGoodsList(this.categorySubId)
+                    this.getgoodsList(this.categorySubId)
 
                 }, 500)
             },
@@ -171,7 +171,7 @@
                 setTimeout(() => {
                     this.finished = false;
                     this.isRefresh = false;
-                    this.goodslist = [];
+                    this.goodsList = [];
                     this.page = 1;
                     this.onLoad()
                 }, 500)
@@ -179,7 +179,7 @@
             onClickCategorySub(index) {
                 this.categorySubId = this.categorySub[index].ID;
                 console.log(`categorySubId :${this.categorySubId}`);
-                this.goodslist = [];
+                this.goodsList = [];
                 this.finished = false;
                 this.page = 1;
                 this.onLoad()
