@@ -34,8 +34,8 @@
                                       :finished="finished"
                                       finished-text="没有更多了"
                                       @load="onLoad">
-                                <div class="list-item" v-for="(item,index) in goodsList" :key="index"
-                                     @click="goGoodsInfo(item.ID)">
+                                <div class="list-item" v-for="(item,index) in goodslist" :key="index"
+                                    @click="goGoodsInfo(item.ID)">
                                     <div class="list-item-img">
                                         <img :src="item.IMAGE1" width="100%" :onerror="errorImg"/>
                                     </div>
@@ -69,7 +69,7 @@
                 loading: false, ////上拉加载使用
                 finished: false, //下拉加载是否没有数据了
                 active: 0,
-                goodsList: [],  //商品列表数据
+                goodslist: [],  //商品列表数据
                 isRefresh: false, //下拉刷新
                 categorySubId: '',  //商品子类别id
                 page: 1,
@@ -81,11 +81,11 @@
         },
         mounted() {
             let winHeight = document.documentElement.clientHeight;
-            document.getElementById('nav-left').style.height = winHeight - 46 - 50 + 'px';
-            document.getElementById('list-div').style.height = winHeight - 90 - 50 + 'px'
+            document.getElementById('nav-left').style.height = winHeight - 46 + 'px';
+            document.getElementById('list-div').style.height = winHeight - 90 + 'px'
         },
-        filters: {
-            moneyFilter(money) {
+        filters:{
+            moneyFilter(money){
                 return toMoney(money)
             }
         },
@@ -109,7 +109,7 @@
                 this.categoryIndex = index;
                 this.page = 1;
                 this.finished = false;
-                this.goodsList = [];
+                this.goodslist = [];
                 this.getCategorySubByCategoryId(categoryId)
             },
             //根据大类id来获取小类数据
@@ -136,9 +136,9 @@
                 })
             },
             //得到小类商品列表信息
-            getgoodsList(categorySubId) {
+            getGoodsList(categorySubId) {
                 axios({
-                    url: serviceApi.url.getgoodsListByCategorySubID,
+                    url: serviceApi.url.getGoodsListByCategorySubID,
                     method: 'post',
                     data: {
                         categorySubId: categorySubId,
@@ -147,7 +147,7 @@
                 }).then((res) => {
                     if (res.data.code === 200 && res.data.message) {
                         this.page++;
-                        this.goodsList = this.goodsList.concat(res.data.message);
+                        this.goodslist = this.goodslist.concat(res.data.message);
                         console.log(res.data.message)
                     } else {
                         this.finished = true
@@ -162,7 +162,7 @@
             onLoad() {
                 setTimeout(() => {
                     this.categorySubId = this.categorySubId ? this.categorySubId : this.categorySub[0].ID;
-                    this.getgoodsList(this.categorySubId)
+                    this.getGoodsList(this.categorySubId)
 
                 }, 500)
             },
@@ -171,7 +171,7 @@
                 setTimeout(() => {
                     this.finished = false;
                     this.isRefresh = false;
-                    this.goodsList = [];
+                    this.goodslist = [];
                     this.page = 1;
                     this.onLoad()
                 }, 500)
@@ -179,13 +179,13 @@
             onClickCategorySub(index) {
                 this.categorySubId = this.categorySub[index].ID;
                 console.log(`categorySubId :${this.categorySubId}`);
-                this.goodsList = [];
+                this.goodslist = [];
                 this.finished = false;
                 this.page = 1;
                 this.onLoad()
             },
-            goGoodsInfo(id) {
-                this.$router.push({name: 'Goods', params: {goodsId: id}})
+            goGoodsInfo(id){
+                this.$router.push({name:'Goods',params:{goodsId:id}})
             }
         }
     }
